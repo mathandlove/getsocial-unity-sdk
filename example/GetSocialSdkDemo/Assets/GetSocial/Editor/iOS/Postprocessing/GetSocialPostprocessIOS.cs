@@ -357,9 +357,14 @@ namespace GetSocialSdk.Editor
             var currentPushSettings = entitlements.ContainsKey("aps-environment")
                 ? entitlements.root["aps-environment"].AsString()
                 : null;
+            if (currentPushSettings != null && !GetSocialSettings.IosPushEnvironment.Equals(currentPushSettings))
+            {
+                // show warning
+                Debug.LogWarning("[GetSocial] Push notification settings are different, check the settings in the GetSocial Dashboard at http://dashboard.getsocial.im .");
+            }
             if (currentPushSettings == null)
             {
-                entitlements.root.SetString("aps-environment", "development");
+                entitlements.root.SetString("aps-environment", GetSocialSettings.IosPushEnvironment);
             }
         }
 
